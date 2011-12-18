@@ -40,21 +40,24 @@ namespace FBDerp
             public string password { get; set; }
         }
 
-        public static APITestUser CreateUser(string accessToken, WebClient httpClient, long applicationId, string userFullname)
+        public static APITestUser CreateUser(string accessToken, long applicationId, string userFullname)
         {
-            var createUserParameters = new QuerystringParameters();
+            using (var webClient = new WebClient())
+            {
+                var createUserParameters = new QuerystringParameters();
 
-            createUserParameters.Add("installed", "true");
-            createUserParameters.Add("name", userFullname);
-            createUserParameters.Add("permissions", "read_stream");
-            createUserParameters.Add("method", "post");
-            createUserParameters.Add("access_token", accessToken);
+                createUserParameters.Add("installed", "true");
+                createUserParameters.Add("name", userFullname);
+                createUserParameters.Add("permissions", "read_stream");
+                createUserParameters.Add("method", "post");
+                createUserParameters.Add("access_token", accessToken);
 
-            string createUserUri = "https://graph.facebook.com/" + applicationId + "/accounts/test-users?" +
-                                   createUserParameters.AsQuerystring();
-            var userCreationResponse = httpClient.DownloadString(new Uri(createUserUri));
+                string createUserUri = "https://graph.facebook.com/" + applicationId + "/accounts/test-users?" +
+                                       createUserParameters.AsQuerystring();
+                var userCreationResponse = webClient.DownloadString(new Uri(createUserUri));
 
-            return JsonConvert.DeserializeObject<APITestUser>(userCreationResponse);
+                return JsonConvert.DeserializeObject<APITestUser>(userCreationResponse);
+            }
         }
     }
 }

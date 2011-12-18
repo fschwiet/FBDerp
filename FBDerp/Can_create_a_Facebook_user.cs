@@ -15,13 +15,11 @@ namespace FBDerp
 
             var accessToken = arrange(() => FacebookClient.GetAppToken(applicationId.ToString(), applicationSecret));
 
-            var httpClient = arrange(() => new WebClient());
-
             when("we create a facebook user", delegate()
             {
                 var user = arrange(() =>
                 {
-                    return FacebookClient.CreateUser(accessToken, httpClient, applicationId, userFullname);
+                    return FacebookClient.CreateUser(accessToken, applicationId, userFullname);
                 });
 
                 then("facebook returns a user object", delegate()
