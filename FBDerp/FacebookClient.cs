@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace FBDerp
 {
@@ -28,6 +29,32 @@ namespace FBDerp
 
                 return result.Substring(prefix.Length);
             }
+        }
+
+        public class APITestUser
+        {
+            public string id { get; set; }
+            public string access_token { get; set; }
+            public string login_url { get; set; }
+            public string email { get; set; }
+            public string password { get; set; }
+        }
+
+        public static APITestUser CreateUser(string accessToken, WebClient httpClient, long applicationId, string userFullname)
+        {
+            var createUserParameters = new QuerystringParameters();
+
+            createUserParameters.Add("installed", "true");
+            createUserParameters.Add("name", userFullname);
+            createUserParameters.Add("permissions", "read_stream");
+            createUserParameters.Add("method", "post");
+            createUserParameters.Add("access_token", accessToken);
+
+            string createUserUri = "https://graph.facebook.com/" + applicationId + "/accounts/test-users?" +
+                                   createUserParameters.AsQuerystring();
+            var userCreationResponse = httpClient.DownloadString(new Uri(createUserUri));
+
+            return JsonConvert.DeserializeObject<APITestUser>(userCreationResponse);
         }
     }
 }
