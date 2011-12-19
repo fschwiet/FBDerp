@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Can_post_comment_on_content_page.cs" />
     <Compile Include="FacebookClient.cs" />
     <Compile Include="Can_create_a_Facebook_user.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -9,11 +9,11 @@ namespace FBDerp
     {
         public override void Specify()
         {
-            string userFullname = "Some User";// +Guid.NewGuid();
-            var applicationId = 220266841382535;
-            var applicationSecret = "e9eae045396bbb09fd170496a4a21cdf";
+            string userFullname = "User Name";
+            var applicationId = Properties.Settings.Default.FacebookApplicationId;
+            var applicationSecret = Properties.Settings.Default.FacebookSecret;
 
-            var accessToken = arrange(() => FacebookClient.GetAppToken(applicationId.ToString(), applicationSecret));
+            var accessToken = arrange(() => FacebookClient.GetAppToken(applicationId, applicationSecret));
 
             when("we create a facebook user", delegate()
             {

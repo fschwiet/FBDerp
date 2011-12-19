@@ -40,7 +40,7 @@ namespace FBDerp
             public string password { get; set; }
         }
 
-        public static APITestUser CreateUser(string accessToken, long applicationId, string userFullname)
+        public static APITestUser CreateUser(string accessToken, string applicationId, string userFullname)
         {
             using (var webClient = new WebClient())
             {

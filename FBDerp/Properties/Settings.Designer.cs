@@ -31,5 +31,23 @@ namespace FBDerp.Properties {
                 return ((string)(this["SimpleServerPath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("220266841382535")]
+        public string FacebookApplicationId {
+            get {
+                return ((string)(this["FacebookApplicationId"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("e9eae045396bbb09fd170496a4a21cdf")]
+        public string FacebookSecret {
+            get {
+                return ((string)(this["FacebookSecret"]));
+            }
+        }
     }
 }
