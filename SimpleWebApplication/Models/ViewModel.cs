@@ -8,5 +8,6 @@ namespace SimpleWebApplication.Models
     public class ViewModel
     {
         public int Id;
+        public string Url;
     }
 }
