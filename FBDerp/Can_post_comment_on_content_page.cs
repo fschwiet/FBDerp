@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using FBDerp.TestDrivers;
 using NJasmine;
 using OpenQA.Selenium.Firefox;
@@ -35,7 +36,20 @@ namespace FBDerp
 
                     then("the user can post a comment", delegate()
                     {
+                        var iframe =
+                            browser.WaitForElement(
+                                BySizzle.CssSelector("iframe[src^=\"https://www.facebook.com/plugins/comments.php\"]"));
+                        browser.SwitchTo().Frame(iframe);
 
+                        browser.FindElement(BySizzle.CssSelector("textarea")).SendKeys("First comment");
+                        browser.FindElement(BySizzle.CssSelector("a[data-label^='Comment using']")).Click();
+                        browser.FindElement(BySizzle.CssSelector("a[onclick*=setProvider]:contains('Facebook')")).Click();
+
+                        foreach(string handle in browser.WindowHandles)
+                        {
+                            Console.WriteLine("window: " + handle);
+                        }
+                        ;
                     });
                 });
             });
