@@ -21,6 +21,8 @@ namespace FBDerp
 
                 then("facebook returns a user object", delegate()
                 {
+                    expect(() => !string.IsNullOrEmpty(user.email));
+                    expect(() => !string.IsNullOrEmpty(user.password));
                     Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user, Formatting.Indented));
                 });
             });
