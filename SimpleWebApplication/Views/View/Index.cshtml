@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "Index";
 }
+
+@section Head {
+    <meta property="fb:admins" content="220266841382535,1367665318"/>
+}
+
 <div id="fb-root">
 </div>
 <script>   
@@ -17,4 +22,5 @@
 
 <h2>Welcome to @Model.Id</h2>
 
-<div class="fb-comments" data-href="@Model.Url" data-num-posts="10" data-width="500" data-colorscheme="light"></div>
+<div class="fb-comments" data-href="@Model.Url" data-num-posts="10" data-width="500" data-colorscheme="light">
+</div>
