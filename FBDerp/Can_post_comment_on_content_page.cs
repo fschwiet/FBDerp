@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using FBDerp.TestDrivers;
 using NJasmine;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using SizSelCsZzz;
 
@@ -44,6 +45,12 @@ namespace FBDerp
                         
                         browser.SwitchTo().Frame(iframe);
 
+                        var buttonIndicatingCommentFormIsHidden =
+                            browser.FindElements(BySizzle.CssSelector("a:contains('Add a comment')"));
+
+                        if(buttonIndicatingCommentFormIsHidden.Count() > 0)
+                            buttonIndicatingCommentFormIsHidden.Single().Click();
+
                         browser.FindElement(BySizzle.CssSelector("textarea")).SendKeys(comment);
                         browser.FindElement(BySizzle.CssSelector("a[data-label^='Comment using']")).Click();
 
@@ -59,7 +66,6 @@ namespace FBDerp
 
                         browser.SwitchTo().Window(windowContext.GetOriginalWindowName());
                         browser.SwitchTo().Frame(iframe);
-
 
                         var waitForElement = browser.WaitForElement(BySizzle.CssSelector("input[value=Comment]"));
                         expectEventually(() => waitForElement.Displayed, msLongWait);
