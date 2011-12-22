@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FBDerp.TestDrivers;
 using NJasmine;
 using OpenQA.Selenium.Firefox;
 using SizSelCsZzz;
@@ -28,13 +29,23 @@ namespace FBDerp
                     browser.FindElement(BySizzle.CssSelector("input[name=pass]")).SendKeys(user.password);
                     browser.FindElement(BySizzle.CssSelector(".menu_login_container input[type=Submit]")).Click();
                     browser.WaitForElement(BySizzle.CssSelector("input[value='Log Out']"));
-
-
                 });
 
-                it("does something", delegate()
+                given("the user registers on the site", delegate()
                 {
+                    var site = this.ArrangeServer();
 
+                    arrange(delegate()
+                    {
+                        browser.Navigate().GoToUrl(site.UrlFor("/Account/Register"));
+
+                        //expect(())
+                    });
+
+                    it("does somethiing", delegate()
+                    {
+
+                    });
                 });
             });
         }

@@ -18,8 +18,25 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
     <div>
+        <iframe src="https://www.facebook.com/plugins/registration.php?@Html.Raw(this.Querystring(
+                     "client_id", Globals.FacebookApplicationId,
+                     "redirect_uri", this.UrlFor(Url.Action("FacebookRegistered")),
+                     "fields", Json.Encode(new object[] {
+                        new { name = "name" },
+                        new { name = "nickname", description="Your name on Cheezburger", type="text"},
+                        new { name = "email"}
+                     })
+                    ))"
+                scrolling="auto"
+                frameborder="no"
+                style="border:none"
+                allowTransparency="true"
+                width="100%"
+                height="330">
+        </iframe>
+
         <fieldset>
-            <legend>Account Information</legend>
+            <legend>Register without facebook</legend>
 
             <div class="editor-label">
                 @Html.LabelFor(m => m.UserName)
