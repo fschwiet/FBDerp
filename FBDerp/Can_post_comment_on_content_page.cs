@@ -16,15 +16,12 @@ namespace FBDerp
         {
             var msLongWait = 10*10000;
 
-            var facebookClient = arrange(() => FacebookClient.Open());
+            var facebookClient = arrange(() => new FacebookClient());
             string userFullname = "User Name";
 
             given("a facebook user", delegate()
             {
-                var user = arrange(() =>
-                {
-                    return facebookClient.ApiTestUser(userFullname);
-                });
+                var user = arrange(() => facebookClient.CreateTestUser(userFullname));
 
                 given("the user visits a content page", delegate()
                 {

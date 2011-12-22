@@ -9,15 +9,12 @@ namespace FBDerp
     {
         public override void Specify()
         {
-            var facebookClient = arrange(() => FacebookClient.Open());
+            var facebookClient = arrange(() => new FacebookClient());
             string userFullname = "User Name";
             
             when("we create a facebook user", delegate()
             {
-                var user = arrange(() =>
-                {
-                    return facebookClient.ApiTestUser(userFullname);
-                });
+                var user = arrange(() => facebookClient.CreateTestUser(userFullname));
 
                 then("facebook returns a user object", delegate()
                 {

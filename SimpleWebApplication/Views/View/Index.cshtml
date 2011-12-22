@@ -5,23 +5,30 @@
 }
 
 @section Head {
-    <meta property="fb:app_id" content="@SimpleWebApplication.Globals.FacebookApplicationId"/>
-    <meta property="fb:admins" content="220266841382535,1367665318"/>
+    <meta property="fb:app_id" content="336579193024377"/>
+    <meta property="fb:admins" content="336579193024377,1367665318"/>
 }
 
 <div id="fb-root">
 </div>
-<script>   
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-        fjs.parentNode.insertBefore(js, fjs);
-    } (document, 'script', 'facebook-jssdk'));
+<script>
+
+    window.fbAsyncInit = function () {
+        FB.init({ appId: '336579193024377', status: true, cookie: true, xfbml: true });
+    };
+
+    (function () {
+        var e = document.createElement('script');
+        e.type = 'text/javascript';
+        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+        e.async = true;
+        document.getElementById('fb-root').appendChild(e);
+    } ());
+  
 </script>
 
 <h2>Welcome to @Model.Id</h2>
 
-<div class="fb-comments" data-href="http://localhost.com/view/123" data-num-posts="10" data-width="500" data-colorscheme="light">
+
+ <fb:comments href="http://stage5.wp.cheezburger.com/2010/12/02/test-titlea-ce-c-ad-bdefacf/" num_posts="2" width="680" migrated=1></fb:comments>
 </div>

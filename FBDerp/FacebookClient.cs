@@ -11,19 +11,13 @@ namespace FBDerp
         private string _applicationId;
         private string _accessToken;
 
-        public static FacebookClient Open()
+        public FacebookClient()
         {
-            var applicationId = Settings.Default.FacebookApplicationId;
-            var applicationSecret = Settings.Default.FacebookSecret;
-
-            return new FacebookClient()
-            {
-                _applicationId = applicationId,
-                _accessToken = FacebookAPIWrapper.GetAppToken(applicationId, applicationSecret)
-            };
+            _applicationId = Settings.Default.FacebookApplicationId;
+            _accessToken = FacebookAPIWrapper.GetAppToken(_applicationId, Settings.Default.FacebookSecret);
         }
 
-        public FacebookAPIWrapper.APITestUser ApiTestUser(string userFullname)
+        public FacebookAPIWrapper.APITestUser CreateTestUser(string userFullname)
         {
             return FacebookAPIWrapper.CreateUser(_accessToken, _applicationId, userFullname);
         }
