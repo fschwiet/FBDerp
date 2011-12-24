@@ -11,6 +11,9 @@ namespace FBDerp
 {
     public class FacebookAPIWrapper
     {
+        //  Assign TraceWriter to trace api calls to Facebook
+        public static TextWriter TraceWriter = null;
+        
         public static string GetAppToken(string applicationId, string applicationSecret)
         {
             QuerystringParameters parameters = new QuerystringParameters();
@@ -105,9 +108,22 @@ namespace FBDerp
 
         private static string DownloadString(string url, string method = "GET")
         {
+            if (TraceWriter != null)
+            {
+                TraceWriter.WriteLine("Request: {0} {1}", method, url);
+            }
+
             using (var client = new WebClient())
             {
-                return client.UploadString(url, method);
+                var result = client.UploadString(url, method);
+
+                if (TraceWriter != null)
+                {
+                    TraceWriter.WriteLine("Response:");
+                    TraceWriter.WriteLine(result);
+                }
+
+                return result;
             }
         }
     }

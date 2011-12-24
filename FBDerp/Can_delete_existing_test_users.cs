@@ -12,6 +12,9 @@ namespace FBDerp
         {
             ignoreBecause("Facebook doesnt seem to allow deleting test users.");
 
+            beforeEach(() => FacebookAPIWrapper.TraceWriter = Console.Out);
+            afterEach(() => FacebookAPIWrapper.TraceWriter = null);
+
             var facebookClient = arrange(() => new FacebookClient());
 
             given("we have a test user", delegate()
