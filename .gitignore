@@ -1,5 +1,6 @@
 bin/
 obj/
+SimpleWebApplication/App_Data/
 _ReSharper.*
 *.ReSharper.user
 *.resharper.user

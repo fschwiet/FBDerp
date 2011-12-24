@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
+using FBDerp.Common.ViewHelpers;
 using SimpleWebApplication.Models;
 
 namespace SimpleWebApplication.Controllers
@@ -12,16 +13,12 @@ namespace SimpleWebApplication.Controllers
     {
         public ActionResult Index(int id)
         {
-            var url = this.HttpContext.Request.Url.AbsoluteUri;
-
-            var querystringIndex = url.IndexOf("?");
-            if (querystringIndex > 0)
-                url = url.Substring(0, querystringIndex);
+            var path = "/view/" + id;
 
             return View("Index", new ViewModel()
             {
                 Id = id,
-                Url = url
+                Url = Config.UrlFor(path)
             });
         }
     }

@@ -14,7 +14,7 @@ namespace FBDerp.Common.ViewHelpers
             BaseUrl = baseUrl;
         }
 
-        public static string UrlFor(this WebViewPage page, string path)
+        public static string UrlFor(string path)
         {
             return new Uri(new Uri(BaseUrl), path).AbsoluteUri;
         }
