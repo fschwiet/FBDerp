@@ -82,7 +82,6 @@ namespace FBDerp
 
             var response = DownloadString(new Uri(url));
 
-            Console.WriteLine(response);
             return JsonConvert.DeserializeObject<APIUserList>(response).data;
         }
 
@@ -116,7 +115,12 @@ namespace FBDerp
 
             using (var client = new WebClient())
             {
-                var result = client.UploadString(url, method);
+                string result = null;
+                
+                if (method.ToUpper() == "GET")
+                    result = client.DownloadString(url);
+                else
+                    result = client.UploadString(url, method);
 
                 if (TraceWriter != null)
                 {
