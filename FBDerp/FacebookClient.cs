@@ -21,5 +21,32 @@ namespace FBDerp
         {
             return FacebookAPIWrapper.CreateUser(_accessToken, _applicationId, userFullname);
         }
+
+        public int GetNumberOfTestUsers()
+        {
+            return FacebookAPIWrapper.GetSomeExistingTestUsers(_accessToken, _applicationId).Count();
+        }
+
+        public void DeleteAllTestUsers()
+        {
+            throw new NotImplementedException("it seems facebook will keep reporting deleted users.");
+
+            var remainingUsers = FacebookAPIWrapper.GetSomeExistingTestUsers(_accessToken, _applicationId);
+
+            if (remainingUsers.Count() == 0)
+                return;
+
+            do
+            {
+                Console.WriteLine("Deleting {0} users, first is {1}...", remainingUsers.Count(), remainingUsers.First().id);
+                
+                foreach(var user in remainingUsers)
+                {
+                    FacebookAPIWrapper.DeleteUser(_accessToken, user.id);
+                }
+
+                remainingUsers = FacebookAPIWrapper.GetSomeExistingTestUsers(_accessToken, _applicationId);
+            } while (remainingUsers.Count() > 0);
+        }
     }
 }

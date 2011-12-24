@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Can_delete_existing_test_users.cs" />
     <Compile Include="Can_post_comment_on_content_page.cs" />
     <Compile Include="FacebookAPIWrapper.cs" />
     <Compile Include="Can_create_a_Facebook_user.cs" />

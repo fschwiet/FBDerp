@@ -45,19 +45,67 @@ namespace FBDerp
         {
             using (var webClient = new WebClient())
             {
-                var createUserParameters = new QuerystringParameters();
+                var parameters = new QuerystringParameters();
 
-                createUserParameters.Add("installed", "true");
-                createUserParameters.Add("name", userFullname);
-                createUserParameters.Add("permissions", "read_stream");
-                createUserParameters.Add("method", "post");
-                createUserParameters.Add("access_token", accessToken);
+                parameters.Add("installed", "true");
+                parameters.Add("name", userFullname);
+                parameters.Add("permissions", "read_stream");
+                parameters.Add("method", "post");
+                parameters.Add("access_token", accessToken);
 
-                string createUserUri = "https://graph.facebook.com/" + applicationId + "/accounts/test-users?" +
-                                       createUserParameters.AsQuerystring();
-                var userCreationResponse = webClient.DownloadString(new Uri(createUserUri));
+                string url = "https://graph.facebook.com/" + applicationId + "/accounts/test-users?" +
+                                       parameters.AsQuerystring();
+                
+                var response = webClient.DownloadString(new Uri(url));
 
-                return JsonConvert.DeserializeObject<APITestUser>(userCreationResponse);
+                return JsonConvert.DeserializeObject<APITestUser>(response);
+            }
+        }
+
+        public class APIUserList
+        {
+            public APITestUser[] data;
+        }
+
+        /// <summary>
+        /// I'm not bothering with paging yet, so this only gets some of your test users.
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="applicationId"></param>
+        /// <returns></returns>
+        public static IEnumerable<APITestUser> GetSomeExistingTestUsers(string accessToken, string applicationId)
+        {
+            using (var webClient = new WebClient())
+            {
+                var parameters = new QuerystringParameters();
+
+                parameters.Add("access_token", accessToken);
+
+                string url = "https://graph.facebook.com/" + applicationId + "/accounts/test-users?" +
+                                       parameters.AsQuerystring();
+
+                var response = webClient.DownloadString(new Uri(url));
+
+                Console.WriteLine(response);
+                return JsonConvert.DeserializeObject<APIUserList>(response).data;
+            }
+        }
+
+        public static void DeleteUser(string accessToken, string userId)
+        {
+            using (var webClient = new WebClient())
+            {
+                var parameters = new QuerystringParameters();
+
+                parameters.Add("access_token", accessToken);
+
+                string createUserUri = "https://graph.facebook.com/" + userId +"?" +
+                                       parameters.AsQuerystring();
+
+                var response = webClient.UploadString(new Uri(createUserUri), "DELETE");
+
+                if (response != "true")
+                    throw new Exception("Unable to delete user " + userId + ", response was: " + response);
             }
         }
     }
