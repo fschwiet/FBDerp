@@ -10,7 +10,7 @@ namespace FBDerp
     {
         public override void Specify()
         {
-            ignoreBecause("Facebook doesnt seem to allow deleting test users.");
+            ignoreBecause("Facebook doesnt seem to allow deleting test users-- see http://stackoverflow.com/questions/8625808/deleting-test-facebook-users-open-graph-still-reports-users");
 
             beforeEach(() => FacebookAPIWrapper.TraceWriter = Console.Out);
             afterEach(() => FacebookAPIWrapper.TraceWriter = null);
