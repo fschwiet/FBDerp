@@ -19,7 +19,7 @@
     @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
     <div>
         <iframe src="https://www.facebook.com/plugins/registration.php?@Html.Raw(this.Querystring(
-                     "client_id", Globals.FacebookApplicationId,
+                     "client_id", Config.FacebookApplicationId,
                      "redirect_uri", this.UrlFor(Url.Action("FacebookRegistered")),
                      "fields", Json.Encode(new object[] {
                         new { name = "name" },

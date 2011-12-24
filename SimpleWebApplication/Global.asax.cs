@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using FBDerp.Common.ViewHelpers;
 
 namespace SimpleWebApplication
 {
@@ -36,6 +37,8 @@ namespace SimpleWebApplication
 
         protected void Application_Start()
         {
+            Config.SetAllTheThings(Properties.Settings.Default.FacebookApplicationId, Properties.Settings.Default.BaseUrl);
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);

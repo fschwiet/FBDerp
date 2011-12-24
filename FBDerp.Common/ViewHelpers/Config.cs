@@ -1,20 +1,22 @@
 ﻿using System;
-using System.Web;
 using System.Web.Mvc;
-using FBDerp.Common;
 
-namespace SimpleWebApplication.ViewHelpers
+namespace FBDerp.Common.ViewHelpers
 {
-    public static class Globals
+    public static class Config
     {
-        public static string FacebookApplicationId
+        public static string FacebookApplicationId;
+        public static string BaseUrl;
+ 
+        public static void SetAllTheThings(string facebookApplicationId, string baseUrl)
         {
-            get { return Properties.Settings.Default.FacebookApplicationId; }
+            FacebookApplicationId = facebookApplicationId;
+            BaseUrl = baseUrl;
         }
 
         public static string UrlFor(this WebViewPage page, string path)
         {
-            return new Uri(page.Context.Request.Url, path).AbsoluteUri;
+            return new Uri(new Uri(BaseUrl), path).AbsoluteUri;
         }
 
         public static string Querystring(this WebViewPage page, params string[] parameters)
