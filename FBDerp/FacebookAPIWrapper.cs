@@ -110,6 +110,7 @@ namespace FBDerp
         {
             if (TraceWriter != null)
             {
+                TraceWriter.WriteLine();
                 TraceWriter.WriteLine("Request: {0} {1}", method, url);
             }
 
@@ -119,6 +120,7 @@ namespace FBDerp
 
                 if (TraceWriter != null)
                 {
+                    TraceWriter.WriteLine();
                     TraceWriter.WriteLine("Response:");
                     TraceWriter.WriteLine(result);
                 }
