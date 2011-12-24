@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -37,7 +38,9 @@ namespace SimpleWebApplication
 
         protected void Application_Start()
         {
-            Config.SetAllTheThings(Properties.Settings.Default.FacebookApplicationId, Properties.Settings.Default.BaseUrl);
+            Config.SetAllTheThings(
+                ConfigurationManager.AppSettings["FacebookApplicationId"],
+                ConfigurationManager.AppSettings["BaseUrl"]);
 
             AreaRegistration.RegisterAllAreas();
 
