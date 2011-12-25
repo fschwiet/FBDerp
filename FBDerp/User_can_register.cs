@@ -10,7 +10,7 @@ using SizSelCsZzz;
 
 namespace FBDerp
 {
-    public class User_can_associate_their_facebook_account_on_registration : GivenWhenThenFixture
+    public class User_can_register : GivenWhenThenFixture
     {
         public override void Specify()
         {
