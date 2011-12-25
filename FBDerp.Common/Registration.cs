@@ -30,12 +30,9 @@ namespace FBDerp.Common
             var iframe = new XElement("iframe");
             iframe.SetAttributeValue("src", "https://www.facebook.com/plugins/registration.php?" + scriptUrlQuerystring.AsQuerystring());
 
-            foreach(var iframeProperty in iframeAttributes.GetType().GetProperties())
+            foreach (var iframeProperty in iframeAttributes.GetPropertyValues())
             {
-                string name = iframeProperty.Name;
-                string value = iframeProperty.GetGetMethod().Invoke(iframeAttributes, null).ToString();
-
-                iframe.SetAttributeValue(name, value);
+                iframe.SetAttributeValue(iframeProperty.Key, iframeProperty.Value);
             }
 
             return new HtmlString(iframe.ToString());

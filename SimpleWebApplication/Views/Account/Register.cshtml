@@ -21,9 +21,10 @@
         
         @FBDerp.Common.Registration.ShowIframe(Config.UrlFor(Url.Action("RegisterViaFacebook", "Account")),
             new object[] {
-                            new { name = "name" },
+                            new { name = "name", view = "prefilled" },
                             new { name = "nickname", description="Handle", type="text"},
-                            new { name = "email"}
+                            new { name = "email"},
+                            new { name = "password", view="not_prefilled"}
                          },
             new {
                 scrolling = "auto",
