@@ -15,8 +15,6 @@ namespace FBDerp
     {
         public override void Specify()
         {
-            var msLongWait = 10*10000;
-
             var facebookClient = arrange(() => new FacebookClient());
             string userFullname = "User Name";
 
@@ -41,7 +39,7 @@ namespace FBDerp
                         var iframe =
                             browser.WaitForElementEx(
                                 BySizzle.CssSelector("iframe[src^=\"https://www.facebook.com/plugins/comments.php\"]"),
-                                msLongWait);
+                                Constants.MSLongWait);
                         
                         browser.SwitchTo().Frame(iframe);
 
@@ -68,7 +66,7 @@ namespace FBDerp
                         browser.SwitchTo().Frame(iframe);
 
                         var waitForElement = browser.WaitForElement(BySizzle.CssSelector("input[value=Comment]"));
-                        expectEventually(() => waitForElement.Displayed, msLongWait);
+                        expectEventually(() => waitForElement.Displayed, Constants.MSLongWait);
                         waitForElement.Click();
 
                         browser.FindElements(BySizzle.CssSelector("div.postText:contains('" + comment + "')"));

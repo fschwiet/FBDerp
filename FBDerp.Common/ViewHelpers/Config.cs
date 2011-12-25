@@ -6,11 +6,13 @@ namespace FBDerp.Common.ViewHelpers
     public static class Config
     {
         public static string FacebookApplicationId;
+        public static string FacebookApplicationSecret;
         public static string BaseUrl;
  
-        public static void SetAllTheThings(string facebookApplicationId, string baseUrl)
+        public static void SetAllTheThings(string facebookApplicationId, string facebookApplicationSecret, string baseUrl)
         {
             FacebookApplicationId = facebookApplicationId;
+            FacebookApplicationSecret = facebookApplicationSecret;
             BaseUrl = baseUrl;
         }
 

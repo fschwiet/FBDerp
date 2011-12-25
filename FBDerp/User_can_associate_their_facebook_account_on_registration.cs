@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FBDerp.TestDrivers;
 using NJasmine;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using SizSelCsZzz;
 
@@ -13,6 +14,8 @@ namespace FBDerp
     {
         public override void Specify()
         {
+            var expectedUsername = Guid.NewGuid().ToString();
+
             var facebook = arrange(() => new FacebookClient());
 
             given("a logged in facebook user", delegate()
@@ -20,7 +23,20 @@ namespace FBDerp
                 var userFullname = "Some Fbuser";
                 var user = arrange(() => facebook.CreateTestUser(userFullname));
 
-                var browser = arrange(() => new FirefoxDriver());
+                var browser = arrange(() =>
+                {
+
+                    //  Firefox fails as it puts up a warning dialog
+                    //  when posting to non-HTTPS from the HTTPS iframe
+                    //var profile = new FirefoxProfile();
+                    //profile.SetPreference("security.warn_entering_weak", false);
+                    //profile.SetPreference("security.warn_entering_weak.show_once", false);
+                    //profile.SetPreference("security.warn_submit_insecure", false);
+
+                    //return new FirefoxDriver(profile);
+
+                    return new ChromeDriver();
+                });
 
                 arrange(delegate()
                 {
@@ -39,12 +55,34 @@ namespace FBDerp
                     {
                         browser.Navigate().GoToUrl(site.UrlFor("/Account/Register"));
 
-                        //expect(())
+                        var iframe =
+                            browser.WaitForElementEx(
+                                BySizzle.CssSelector("iframe[src^=\"https://www.facebook.com/plugins/registration.php\"]"),
+                                Constants.MSLongWait);
+
+                        browser.SwitchTo().Frame(iframe);
+
+                        browser.WaitForElement(BySizzle.CssSelector("input[name=nickname]")).SendKeys(expectedUsername);
+
+                        var windowContext = new WhichWindowContext(browser);
+
+                        //  multiple submit buttons existed, we click the one that is visible
+                        var findElement =
+                            browser.FindElements(BySizzle.CssSelector("input[value=Register]")).First(e => e.Displayed);
+                        findElement.Click();
+
+                        browser.SwitchTo().Window(windowContext.GetNewWindowName());
+                        browser.FindElement(BySizzle.CssSelector("input[value=Continue]")).Click();
+
+                        System.Threading.Thread.Sleep(5*1000);
+
+                        
+                        browser.SwitchTo().Window(windowContext.GetOriginalWindowName());
                     });
 
-                    it("does somethiing", delegate()
+                    it("shows the user has logged in", delegate()
                     {
-
+                        expectEventually(() => browser.ContainsText("Welcome " + expectedUsername), Constants.MSLongWait);
                     });
                 });
             });

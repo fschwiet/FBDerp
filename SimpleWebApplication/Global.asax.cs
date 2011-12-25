@@ -40,6 +40,7 @@ namespace SimpleWebApplication
         {
             Config.SetAllTheThings(
                 ConfigurationManager.AppSettings["FacebookApplicationId"],
+                ConfigurationManager.AppSettings["FacebookApplicationSecret"],
                 ConfigurationManager.AppSettings["BaseUrl"]);
 
             AreaRegistration.RegisterAllAreas();

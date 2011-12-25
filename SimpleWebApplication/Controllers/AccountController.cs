@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using Facebook;
+using FBDerp.Common.ViewHelpers;
 using SimpleWebApplication.Models;
 
 namespace SimpleWebApplication.Controllers
@@ -99,7 +101,22 @@ namespace SimpleWebApplication.Controllers
         [HttpPost]
         public ActionResult RegisterViaFacebook(string signed_request)
         {
-            return View("SimpleString", (object)signed_request);
+            var signedRequest = FacebookSignedRequest.Parse(Config.FacebookApplicationSecret, signed_request);
+
+            string name = ((dynamic)signedRequest.Data).registration.name;
+            string nickname = ((dynamic)signedRequest.Data).registration.nickname;
+            string email = ((dynamic)signedRequest.Data).registration.email;
+
+            var model = new RegisterModel()
+            {
+                Email = email,
+                Password = Guid.NewGuid().ToString(),
+                UserName = nickname
+            };
+
+            model.ConfirmPassword = model.Password;
+
+            return Register(model);
         }
 
         //
