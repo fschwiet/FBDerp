@@ -96,6 +96,12 @@ namespace SimpleWebApplication.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult RegisterViaFacebook(string signed_request)
+        {
+            return View("SimpleString", (object)signed_request);
+        }
+
         //
         // GET: /Account/ChangePassword
 
