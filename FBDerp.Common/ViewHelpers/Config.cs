@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace FBDerp.Common.ViewHelpers
@@ -18,7 +19,12 @@ namespace FBDerp.Common.ViewHelpers
 
         public static string UrlFor(string path)
         {
-            return new Uri(new Uri(BaseUrl), path).AbsoluteUri;
+            var uriString = BaseUrl;
+
+            if (string.IsNullOrEmpty(uriString))
+                uriString = "http://" + HttpContext.Current.Request.Url.Authority + "/";
+
+            return new Uri(new Uri(uriString), path).AbsoluteUri;
         }
 
         public static string Querystring(this WebViewPage page, params string[] parameters)
