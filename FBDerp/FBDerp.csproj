@@ -91,7 +91,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="TestDrivers\IISExpressDriver.cs" />
-    <Compile Include="TestDrivers\IISExpressTestExtensions.cs" />
     <Compile Include="TestDrivers\ProcessDriver.cs" />
     <Compile Include="User_can_register.cs" />
   </ItemGroup>

@@ -24,7 +24,7 @@ namespace FBDerp
 
                 given("the user visits a content page", delegate()
                 {
-                    var server = this.ArrangeServer();
+                    var server = beforeAll(() => IISExpressDriver.StartServer());
 
                     var browser = arrange(() => new FirefoxDriver());
 

@@ -17,7 +17,7 @@ namespace FBDerp
     {
         public override void Specify()
         {
-            var site = this.ArrangeServer();
+            var site = beforeAll(() => IISExpressDriver.StartServer());
 
             var siteUsername = Guid.NewGuid().ToString();
 
