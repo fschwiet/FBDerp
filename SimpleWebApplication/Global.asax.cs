@@ -39,6 +39,7 @@ namespace SimpleWebApplication
         protected void Application_Start()
         {
             Config.SetAllTheThings(
+                ConfigurationManager.AppSettings["appharbor.commit_id"],
                 ConfigurationManager.AppSettings["FacebookApplicationId"],
                 ConfigurationManager.AppSettings["FacebookApplicationSecret"],
                 ConfigurationManager.AppSettings["BaseUrl"]);

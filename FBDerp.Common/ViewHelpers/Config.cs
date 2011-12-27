@@ -6,12 +6,14 @@ namespace FBDerp.Common.ViewHelpers
 {
     public static class Config
     {
+        public static string AppHarborCommit;
         public static string FacebookApplicationId;
         public static string FacebookApplicationSecret;
         public static string BaseUrl;
  
-        public static void SetAllTheThings(string facebookApplicationId, string facebookApplicationSecret, string baseUrl)
+        public static void SetAllTheThings(string appHarborCommit, string facebookApplicationId, string facebookApplicationSecret, string baseUrl)
         {
+            AppHarborCommit = appHarborCommit;
             FacebookApplicationId = facebookApplicationId;
             FacebookApplicationSecret = facebookApplicationSecret;
             BaseUrl = baseUrl;
