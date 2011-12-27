@@ -23,7 +23,7 @@ namespace SimpleWebApplication.Controllers
 
                 var databaseName = new SqlConnectionStringBuilder(connectionString).InitialCatalog;
 
-                var scriptBlocks = Regex.Split(script.Replace("USE [aspnetdb]", "USE [" + databaseName + "]"), "GO\r\n");
+                var scriptBlocks = Regex.Split(script.Replace("aspnetdb", databaseName), "GO\r\n");
 
                 string error = "";
 
