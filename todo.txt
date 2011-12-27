@@ -1,5 +1,3 @@
-test that non-facebook user can login... problem is their password was set to be a guid
-
 
 
 drop data from tables
