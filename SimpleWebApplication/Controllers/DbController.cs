@@ -13,9 +13,6 @@ namespace SimpleWebApplication.Controllers
 {
     public class DbController : Controller
     {
-        //
-        // GET: /Db/
-
         public ActionResult Create()
         {
             using(var reader = new StreamReader(GetType().Assembly.GetManifestResourceStream("SimpleWebApplication.schema.sql")))
@@ -28,27 +25,50 @@ namespace SimpleWebApplication.Controllers
 
                 var scriptBlocks = Regex.Split(script.Replace("USE [aspnetdb]", "USE [" + databaseName + "]"), "GO\r\n");
 
-                if (!string.IsNullOrEmpty(databaseName))
+                string error = "";
+
+                //if (!string.IsNullOrEmpty(databaseName))
                 {
-                    using (var connection = new SqlConnection(connectionString))
+                    try
                     {
-                        connection.Open();
-                        
-                        foreach(var block in scriptBlocks)
-                        {
-                            using (var command = new SqlCommand(block))
-                            {
-                                command.ExecuteNonQuery();
-                            }
-                        }
+                        RunSqlBlocks(connectionString, scriptBlocks);
+                    }
+                    catch (Exception e)
+                    {
+                        error = e.ToString();
                     }
                 }
 
-                return View("Create", new DbResultModel()
+                var dbResultModel = new DbResultModel()
                 {
                     DatabaseName = databaseName,
-                    Script = scriptBlocks
-                });
+                    Script = scriptBlocks,
+                    Error = error
+                };
+                return View("Create", dbResultModel);
+            }
+        }
+
+        private void RunSqlBlocks(string connectionString, string[] scriptBlocks)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                        
+                foreach(var block in scriptBlocks)
+                {
+                    try
+                    {
+                        using (var command = new SqlCommand(block, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Error running script: " + block, e);
+                    }
+                }
             }
         }
     }

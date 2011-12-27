@@ -6,5 +6,6 @@ namespace SimpleWebApplication.Models
     {
         public string DatabaseName;
         public IEnumerable<string> Script;
+        public string Error;
     }
 }
