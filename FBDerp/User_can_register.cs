@@ -66,10 +66,7 @@ namespace FBDerp
                         submit_registration_dialog_as_facebook_user(browser);
                     });
 
-                    it("shows the user has logged in", delegate()
-                    {
-                        expectEventually(() => browser.ContainsText("Welcome " + siteUsername), Constants.MSLongWait);
-                    });
+                    then_it_shows_the_user_has_logged_in(browser, siteUsername);
                 });
 
                 given("the user tries registering with a short nickname (which fails model violation)", delegate()
@@ -116,10 +113,30 @@ namespace FBDerp
                     click_registration_button(browser);
                 });
 
-                it("shows the user has logged in", delegate()
+                then_it_shows_the_user_has_logged_in(browser, siteUsername);
+
+                when("the user tries to log in later", delegate()
                 {
-                    expectEventually(() => browser.ContainsText("Welcome " + siteUsername), Constants.MSLongWait);
+                    var secondBrowser = arrange(() => new ChromeDriver());
+
+                    arrange(delegate()
+                    {
+                        secondBrowser.Navigate().GoToUrl(site.UrlFor("/Account/LogOn"));
+                        secondBrowser.FindElement(BySizzle.CssSelector("input[name=UserName]")).SendKeys(siteUsername);
+                        secondBrowser.FindElement(BySizzle.CssSelector("input[name=Password]")).SendKeys(password);
+                        secondBrowser.FindElement(BySizzle.CssSelector("input[value='Log On']")).Click();
+                    });
+
+                    then_it_shows_the_user_has_logged_in(browser, siteUsername);
                 });
+            });
+        }
+
+        private void then_it_shows_the_user_has_logged_in(ChromeDriver browser, string siteUsername)
+        {
+            it("shows the user has logged in", delegate()
+            {
+                expectEventually(() => browser.ContainsText("Welcome " + siteUsername), Constants.MSLongWait);
             });
         }
 

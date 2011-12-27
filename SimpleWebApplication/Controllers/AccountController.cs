@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using Facebook;
 using FBDerp.Common.ViewHelpers;
@@ -107,11 +108,12 @@ namespace SimpleWebApplication.Controllers
             string name = ((dynamic)signedRequest.Data).registration.name;
             string nickname = ((dynamic)signedRequest.Data).registration.nickname;
             string email = ((dynamic)signedRequest.Data).registration.email;
+            string password = ((dynamic)signedRequest.Data).registration.password ?? Guid.NewGuid().ToString();
 
             var model = new RegisterModel()
             {
                 Email = email,
-                Password = Guid.NewGuid().ToString(),
+                Password = password,
                 UserName = nickname
             };
 
