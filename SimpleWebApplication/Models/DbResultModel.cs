@@ -1,8 +1,10 @@
-﻿namespace SimpleWebApplication.Models
+﻿using System.Collections.Generic;
+
+namespace SimpleWebApplication.Models
 {
     public class DbResultModel
     {
         public string DatabaseName;
-        public string Script;
+        public IEnumerable<string> Script;
     }
 }

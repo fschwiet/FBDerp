@@ -8,4 +8,10 @@
 
 @Model.DatabaseName
 
-<pre>@Model.Script</pre>
+@foreach(var block in @Model.Script)
+{
+    <pre>@block</pre>
+    <hr />
+}
+
+
