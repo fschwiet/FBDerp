@@ -56,28 +56,40 @@ namespace FBDerp
                 {
                     arrange(delegate()
                     {
-                        browser.Navigate().GoToUrl(site.UrlFor("/Account/Register"));
+                        go_to_registration_form(browser, site);
 
-                        browser_should_interact_with_registration_iframe(browser);
-
-                        should_type_registration_fields(browser, new
+                        type_registration_fields(browser, new
                         {
                             nickname = siteUsername
                         });
 
-                        var windowContext = new WhichWindowContext(browser);
-
-                        click_registration_button(browser);
-
-                        browser.SwitchTo().Window(windowContext.GetNewWindowName());
-                        browser.FindElement(BySizzle.CssSelector("input[value=Continue]")).Click();
-                        
-                        browser.SwitchTo().Window(windowContext.GetOriginalWindowName());
+                        submit_registration_dialog_as_facebook_user(browser);
                     });
 
                     it("shows the user has logged in", delegate()
                     {
                         expectEventually(() => browser.ContainsText("Welcome " + siteUsername), Constants.MSLongWait);
+                    });
+                });
+
+                given("the user tries registering with a short nickname (which fails model violation)", delegate()
+                {
+                    arrange(delegate()
+                    {
+                        go_to_registration_form(browser, site);
+
+                        type_registration_fields(browser, new
+                        {
+                            nickname = "la"
+                        });
+
+                        submit_registration_dialog_as_facebook_user(browser);
+                    });
+
+                    it("should say registration failed", delegate()
+                    {
+                        expectEventually(() => browser.ContainsText("Account creation was unsuccessful."));
+                        expect(() => browser.ContainsText("Username must be at least 6 characters long"));
                     });
                 });
             });
@@ -89,13 +101,11 @@ namespace FBDerp
 
                 arrange(delegate()
                 {
-                    browser.Navigate().GoToUrl(site.UrlFor("/Account/Register"));
-
-                    browser_should_interact_with_registration_iframe(browser);
+                    go_to_registration_form(browser, site);
 
                     should_have_registration_fields(browser, "nickname", "email", "password", "password_confirmation");
 
-                    should_type_registration_fields(browser, new
+                    type_registration_fields(browser, new
                         {
                             nickname = siteUsername,
                             email = email,
@@ -113,6 +123,18 @@ namespace FBDerp
             });
         }
 
+        private void submit_registration_dialog_as_facebook_user(ChromeDriver browser)
+        {
+            var windowContext = new WhichWindowContext(browser);
+
+            click_registration_button(browser);
+
+            browser.SwitchTo().Window(windowContext.GetNewWindowName());
+            browser.FindElement(BySizzle.CssSelector("input[value=Continue]")).Click();
+                        
+            browser.SwitchTo().Window(windowContext.GetOriginalWindowName());
+        }
+
         private void click_registration_button(ChromeDriver browser)
         {
             //  multiple submit buttons existed, we click the one that is visible
@@ -121,13 +143,12 @@ namespace FBDerp
             findElement.Click();
         }
 
-        private void should_type_registration_fields(IWebDriver browser, object values)
+        private void type_registration_fields(IWebDriver browser, object values)
         {
             var registrationTextFields = browser.FindElements(GetRegistrationInputSelector()).Where(e => e.Displayed);
 
             var names = registrationTextFields.Select(e => e.GetAttribute("name")).ToArray();
-            Console.WriteLine("have fields: " + string.Join(",", names))
-            ;
+            Console.WriteLine("have fields: " + string.Join(",", names));
 
             foreach (var value in values.GetPropertyValues())
             {
@@ -149,8 +170,10 @@ namespace FBDerp
             return BySizzle.CssSelector(".fbRegistrationTextField,.fbRegistrationPasswordField");
         }
 
-        private void browser_should_interact_with_registration_iframe(ChromeDriver browser)
+        private void go_to_registration_form(ChromeDriver browser, IISExpressDriver site)
         {
+            browser.Navigate().GoToUrl(site.UrlFor("/Account/Register"));
+
             var iframe =
                 browser.WaitForElementEx(
                     BySizzle.CssSelector("iframe[src^=\"https://www.facebook.com/plugins/registration.php\"]"),

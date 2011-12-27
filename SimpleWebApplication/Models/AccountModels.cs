@@ -45,6 +45,7 @@ namespace SimpleWebApplication.Models
     public class RegisterModel
     {
         [Required]
+        [StringLength(100, ErrorMessage = "Username must be at least 6 characters long.", MinimumLength = 6)]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 

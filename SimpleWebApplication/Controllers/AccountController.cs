@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -95,7 +96,7 @@ namespace SimpleWebApplication.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View("Register", model);
         }
 
         [HttpPost]
@@ -115,6 +116,16 @@ namespace SimpleWebApplication.Controllers
             };
 
             model.ConfirmPassword = model.Password;
+
+            var validationContext = new ValidationContext(model, null, null);
+            var validationResults = new List<ValidationResult>();
+            if (!Validator.TryValidateObject(model, validationContext, validationResults, true))
+            {
+                foreach(var error in validationResults)
+                {
+                    ModelState.AddModelError("", error.ErrorMessage);
+                }
+            }
 
             return Register(model);
         }
