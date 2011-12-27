@@ -27,6 +27,19 @@ namespace SimpleWebApplication.Controllers
 
                 script = script.Replace("USE [aspnetdb]", "USE [" + databaseName + "]");
 
+                if (!string.IsNullOrEmpty(databaseName))
+                {
+                    using (var connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+
+                        using (var command = new SqlCommand(script))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                }
+
                 return View("Create", new DbResultModel()
                 {
                     DatabaseName = databaseName,
