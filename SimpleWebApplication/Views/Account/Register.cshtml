@@ -19,7 +19,7 @@
     @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
     <div>
         
-        @FBDerp.Common.Registration.ShowIframe(Config.UrlFor(Url.Action("RegisterViaFacebook", "Account")),
+        @FBDerp.Common.Registration.ShowIframe(Config.Current, Config.Current.UrlFor(Url.Action("RegisterViaFacebook", "Account")),
             new object[] {
                             new { name = "name", view = "prefilled" },
                             new { name = "nickname", description="Handle", type="text"},

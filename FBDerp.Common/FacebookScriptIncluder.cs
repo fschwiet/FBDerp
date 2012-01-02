@@ -9,14 +9,14 @@ namespace FBDerp.Common
 {
     public class FacebookScript
     {
-        public static IHtmlString LoadSDK()
+        public static IHtmlString LoadSDK(AppSettingConfig config)
         {
             return new HtmlString(@"
 <div id='fb-root'></div>
 <script type='text/javascript'>   
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '" + Config.FacebookApplicationId + @"',
+            appId      : '" + config.FacebookApplicationId + @"',
             status     : true, 
             cookie     : true,
             xfbml      : true,

@@ -56,6 +56,9 @@
     <Reference Include="PowerAssert">
       <HintPath>..\packages\PowerAssert.1.0.2\lib\PowerAssert.dll</HintPath>
     </Reference>
+    <Reference Include="PSHostsFile">
+      <HintPath>..\packages\PSHostsFile.3.0.3\lib\PSHostsFile.dll</HintPath>
+    </Reference>
     <Reference Include="SizSelCsZzz, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\SizSelCsZzz.0.1.3.0\lib\SizSelCsZzz.dll</HintPath>
@@ -78,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="aaa_check_configuration.cs" />
     <Compile Include="Can_delete_existing_test_users.cs" />
     <Compile Include="Can_post_comment_on_content_page.cs" />
     <Compile Include="Constants.cs" />

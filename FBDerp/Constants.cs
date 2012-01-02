@@ -8,5 +8,6 @@ namespace FBDerp
     public class Constants
     {
         public static int MSLongWait = 10*1000;
+        public static int SQLConnectionTimeoutInSeconds = 10;
     }
 }

@@ -1,25 +1,17 @@
-﻿using System;
+using System;
 using System.Web;
-using System.Web.Mvc;
 
 namespace FBDerp.Common.ViewHelpers
 {
-    public static class Config
+    public class Config
     {
-        public static string AppHarborCommit;
-        public static string FacebookApplicationId;
-        public static string FacebookApplicationSecret;
-        public static string BaseUrl;
- 
-        public static void SetAllTheThings(string appHarborCommit, string facebookApplicationId, string facebookApplicationSecret, string baseUrl)
-        {
-            AppHarborCommit = appHarborCommit;
-            FacebookApplicationId = facebookApplicationId;
-            FacebookApplicationSecret = facebookApplicationSecret;
-            BaseUrl = baseUrl;
-        }
+        public static AppSettingConfig Current;
+        public string AppHarborCommit;
+        public string FacebookApplicationId;
+        public string FacebookApplicationSecret;
+        public string BaseUrl;
 
-        public static string UrlFor(string path)
+        public string UrlFor(string path)
         {
             var uriString = BaseUrl;
 

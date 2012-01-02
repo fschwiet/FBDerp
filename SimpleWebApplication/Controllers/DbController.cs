@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using FBDerp;
 using SimpleWebApplication.Models;
 
 namespace SimpleWebApplication.Controllers
@@ -19,37 +20,43 @@ namespace SimpleWebApplication.Controllers
             {
                 var script = reader.ReadToEnd();
 
-                var connectionString = ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
+                var result = RunScript(script);
 
-                var databaseName = new SqlConnectionStringBuilder(connectionString).InitialCatalog;
+                result.Title = "Create";
 
-                var scriptBlocks = Regex.Split(script.Replace("aspnetdb", databaseName), "GO\r\n");
-
-                string error = "";
-
-                //if (!string.IsNullOrEmpty(databaseName))
-                {
-                    try
-                    {
-                        RunSqlBlocks(connectionString, scriptBlocks);
-                    }
-                    catch (Exception e)
-                    {
-                        error = e.ToString();
-                    }
-                }
-
-                var dbResultModel = new DbResultModel()
-                {
-                    DatabaseName = databaseName,
-                    Script = scriptBlocks,
-                    Error = error
-                };
-                return View("Create", dbResultModel);
+                return View("DbScriptResult", result);
             }
         }
 
-        private void RunSqlBlocks(string connectionString, string[] scriptBlocks)
+        public static DbScriptResult RunScript(string script)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
+
+            var databaseName = new SqlConnectionStringBuilder(connectionString).InitialCatalog;
+
+            var scriptBlocks = Regex.Split(script.Replace("aspnetdb", databaseName), "GO\r\n");
+
+            string error = "";
+
+            try
+            {
+                RunSqlBlocks(connectionString, scriptBlocks);
+            }
+            catch (Exception e)
+            {
+                error = e.ToString();
+            }
+
+            var dbResultModel = new DbScriptResult()
+            {
+                DatabaseName = databaseName,
+                Script = scriptBlocks,
+                Error = error
+            };
+            return dbResultModel;
+        }
+
+        static void RunSqlBlocks(string connectionString, string[] scriptBlocks)
         {
             using (var connection = new SqlConnection(connectionString))
             {

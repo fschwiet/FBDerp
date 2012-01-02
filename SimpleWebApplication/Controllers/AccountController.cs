@@ -103,7 +103,7 @@ namespace SimpleWebApplication.Controllers
         [HttpPost]
         public ActionResult RegisterViaFacebook(string signed_request)
         {
-            var signedRequest = FacebookSignedRequest.Parse(Config.FacebookApplicationSecret, signed_request);
+            var signedRequest = FacebookSignedRequest.Parse(AppSettingConfig.Current.FacebookApplicationSecret, signed_request);
 
             string name = ((dynamic)signedRequest.Data).registration.name;
             string nickname = ((dynamic)signedRequest.Data).registration.nickname;

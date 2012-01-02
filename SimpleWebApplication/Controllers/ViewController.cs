@@ -18,7 +18,7 @@ namespace SimpleWebApplication.Controllers
             return View("Index", new ViewModel()
             {
                 Id = id,
-                Url = Config.UrlFor(path)
+                Url = AppSettingConfig.Current.UrlFor(path)
             });
         }
     }

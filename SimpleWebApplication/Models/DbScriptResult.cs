@@ -2,8 +2,9 @@
 
 namespace SimpleWebApplication.Models
 {
-    public class DbResultModel
+    public class DbScriptResult
     {
+        public string Title;
         public string DatabaseName;
         public IEnumerable<string> Script;
         public string Error;

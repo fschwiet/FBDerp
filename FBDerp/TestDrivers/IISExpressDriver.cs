@@ -58,7 +58,7 @@ namespace FBDerp.TestDrivers
 	        var actualConfigPath =
 	            Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "applicationhost.fixed.config"));
 
-	        var appDataPath = Path.Combine(physicalDirectory, "App_Data");
+            var appDataPath = Path.Combine(physicalDirectory, "App_Data");
 	        foreach(string file in Directory.GetFiles(appDataPath, "*"))
 	        {
 	            File.Delete(file);

@@ -18,12 +18,13 @@ namespace FBDerp.Common
         /// <param name="registrationFields">should serialize like the fields parameter passed to facebook's registration url.</param>
         /// <returns></returns>
         public static IHtmlString ShowIframe(
+            AppSettingConfig config,
             string onFinishUrl, 
             object registrationFields,
             object iframeAttributes)
         {
             var scriptUrlQuerystring = new QuerystringParameters();
-            scriptUrlQuerystring.Add("client_id", Config.FacebookApplicationId);
+            scriptUrlQuerystring.Add("client_id", config.FacebookApplicationId);
             scriptUrlQuerystring.Add("redirect_uri", onFinishUrl);
             scriptUrlQuerystring.Add("fields", Newtonsoft.Json.JsonConvert.SerializeObject(registrationFields));
 
