@@ -28,17 +28,5 @@ namespace FBDerp.Common.ViewHelpers
 
             return new Uri(new Uri(uriString), path).AbsoluteUri;
         }
-
-        public static string Querystring(this WebViewPage page, params string[] parameters)
-        {
-            var querystring = new QuerystringParameters();
-
-            for(var i = 0; i < parameters.Length; i += 2)
-            {
-                querystring[parameters[i]] = parameters[i+1];
-            }
-
-            return querystring.AsQuerystring();
-        }
     }
 }
