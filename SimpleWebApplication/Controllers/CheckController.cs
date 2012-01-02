@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using FBDerp.Common.ViewHelpers;
 
 namespace SimpleWebApplication.Controllers
@@ -15,6 +16,8 @@ namespace SimpleWebApplication.Controllers
 
         public ActionResult Index()
         {
+            Membership.ValidateUser("hi", "there"); // force creation of database
+
             var appData = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_data");
 
             var result = DbController.RunScript("DECLARE @helloDatabase INT");
